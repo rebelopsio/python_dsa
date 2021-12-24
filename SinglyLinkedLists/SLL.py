@@ -82,15 +82,61 @@ class LinkedList:
             prev.next = curr_node.next
             curr_node = None
 
+    def len_iterative(self):
+        count = 0
+        curr_node = self.head
+        while curr_node:
+            count += 1
+            curr_node = curr_node.next
+        return count
+
+    def len_recursive(self, node):
+        if node is None:
+            return 0
+        return 1 + self.len_recursive(node.next)
+
+    def swap_nodes(self, key_1, key_2):
+        if key_1 == key_2:
+            return
+
+        prev_1 = None
+        curr_1 = self.head
+        while curr_1 and curr_1.data != key_1:
+            prev_1 = curr_1
+            curr_1 = curr_1.next
+
+        prev_2 = None
+        curr_2 = self.head
+        while curr_2 and curr_2.data != key_2:
+            prev_2 = curr_2
+            curr_2 = curr_2.next
+
+        if not curr_1 or not curr_2:
+            return
+
+        if prev_1:
+            prev_1.next = curr_2
+        else:
+            self.head = curr_2
+
+        if prev_2:
+            prev_2.next = curr_1
+        else:
+            self.head = curr_1
+
+        curr_1.next, curr_2.next = curr_2.next, curr_1.next
+
+
 
 llist = LinkedList()
+print("The length of an empty linked list is:")
+print(llist.len_recursive(llist.head))
 llist.append("A")
 llist.append("B")
 llist.append("C")
 llist.append("D")
 
-llist.delete_node("B")
-llist.delete_node("E")
-
-
-llist.print_list()
+print("The length of the linked list calculated recursively after inserting 4 elements is:")
+print(llist.len_recursive(llist.head))
+print("The length of the linked list calculated iteratively after inserting 4 elements is:")
+print(llist.len_iterative())
