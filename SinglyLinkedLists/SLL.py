@@ -96,47 +96,76 @@ class LinkedList:
         return 1 + self.len_recursive(node.next)
 
     def swap_nodes(self, key_1, key_2):
+        # key_1 and key_2 represent a means for finding unique nodes to swap
+        # if they are equal, they are the same node and nothing to swap
         if key_1 == key_2:
             return
 
+        # Loop through until we find the node that matches key_1 or none match
         prev_1 = None
         curr_1 = self.head
         while curr_1 and curr_1.data != key_1:
             prev_1 = curr_1
             curr_1 = curr_1.next
 
+        # Loop through until we find the node that matches key_2 or none match
         prev_2 = None
         curr_2 = self.head
         while curr_2 and curr_2.data != key_2:
             prev_2 = curr_2
             curr_2 = curr_2.next
 
+        # if no matches for key_1 or key_2 then return
         if not curr_1 or not curr_2:
             return
 
+        # we swap pointers to the second node for the previous node or head
         if prev_1:
             prev_1.next = curr_2
         else:
             self.head = curr_2
 
+        # we swap pointers to the first node for the previous node or head
         if prev_2:
             prev_2.next = curr_1
         else:
             self.head = curr_1
 
+        # we swap pointers for the current nodes for the next nodes
         curr_1.next, curr_2.next = curr_2.next, curr_1.next
+
+    def reverse_iterative(self):
+        prev = None
+        curr = self.head
+        while curr:
+            nxt = curr.next
+            curr.next = prev
+            prev = curr
+            curr = nxt
+        self.head = prev
+
+    def reverse_recursive(self):
+        def _reverse_recursive(cur, prev):
+            if not cur:
+                return prev
+
+            nxt = cur.next
+            cur.next = prev
+            prev = cur
+            cur = nxt
+            return _reverse_recursive(cur, prev)
+
+        self.head = _reverse_recursive(cur=self.head, prev=None)
+
 
 
 
 llist = LinkedList()
-print("The length of an empty linked list is:")
-print(llist.len_recursive(llist.head))
 llist.append("A")
 llist.append("B")
 llist.append("C")
 llist.append("D")
 
-print("The length of the linked list calculated recursively after inserting 4 elements is:")
-print(llist.len_recursive(llist.head))
-print("The length of the linked list calculated iteratively after inserting 4 elements is:")
-print(llist.len_iterative())
+llist.reverse_recursive()
+
+llist.print_list()
