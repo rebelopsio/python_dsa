@@ -208,17 +208,76 @@ class LinkedList:
                 prev = cur
             cur = prev.next
 
+    def print_nth_from_last(self, n, method):
+        if method ==1:
+            total_len = self.len_iterative()
+
+            cur = self.head
+            while cur:
+                if total_len == n:
+                    # print (cur.data)
+                    return cur.data
+                total_len -= 1
+                cur = cur.next
+            if cur is None:
+                return
+
+        elif method == 2:
+            p = self.head
+            q = self.head
+
+            if n > 0:
+                count = 0
+                while q:
+                    count += 1
+                    if count >= n:
+                        break
+                    q = q.next
+
+                if not q:
+                    print(str(n) + " is greater than the amount of nodes in list.")
+                    return
+
+                while p and q.next:
+                    p = p.next
+                    q = q.next
+                return p.data
+            else:
+                return None
+
+    def count_occurences_iterative(self, data):
+        count = 0
+        cur = self.head
+        while cur:
+            if cur.data == data:
+                count += 1
+            cur = cur.next
+        return count
+
+    def count_occurences_recursive(self, node, data):
+        if not node:
+            return 0
+        if node.data == data:
+            return 1 + self.count_occurences_recursive(node.next, data)
+        else:
+            return self.count_occurences_recursive(node.next, data)
+
+
 llist = LinkedList()
 llist.append(1)
+llist.append(2)
+llist.append(3)
+llist.append(4)
+llist.append(5)
 llist.append(6)
-llist.append(1)
-llist.append(4)
-llist.append(2)
-llist.append(2)
-llist.append(4)
 
-print("Original Linked List")
-llist.print_list()
-print("Linked List After Removing Duplicates")
-llist.remove_duplicates()
-llist.print_list()
+llist_2 = LinkedList()
+llist_2.append(1)
+llist_2.append(2)
+llist_2.append(1)
+llist_2.append(3)
+llist_2.append(1)
+llist_2.append(4)
+llist_2.append(1)
+print(llist_2.count_occurences_iterative(1))
+print(llist_2.count_occurences_recursive(llist_2.head, 1))
