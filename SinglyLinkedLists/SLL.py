@@ -284,13 +284,29 @@ class LinkedList:
             self.head = p.next
             p.next = None
 
-llist = LinkedList()
-llist.append(1)
-llist.append(2)
-llist.append(3)
-llist.append(4)
-llist.append(5)
-llist.append(6)
+    def move_tail_to_head(self):
+        if self.head and self.head.next:
+            head = self.head
+            tail = self.head
+            prev = []
 
-llist.rotate(4)
+            while tail:
+                prev.append(tail)
+                tail = tail.next
+            tail = prev[-1]
+            prev[-2].next = None
+            tail.next = head
+            self.head = tail
+
+# A -> B -> C -> D -> Null
+# D -> A -> B -> C -> Null
+llist = LinkedList()
+llist.append("A")
+llist.append("B")
+llist.append("C")
+llist.append("D")
+
+llist.print_list()
+llist.move_tail_to_head()
+print("\n")
 llist.print_list()
