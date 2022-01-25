@@ -284,13 +284,125 @@ class LinkedList:
             self.head = p.next
             p.next = None
 
-llist = LinkedList()
-llist.append(1)
-llist.append(2)
-llist.append(3)
-llist.append(4)
-llist.append(5)
-llist.append(6)
+    def is_palindrome_1(self):
+        # Solution 1:
+        s = ""
+        p = self.head
+        while p:
+            s += p.data
+            p = p.next
+        return s == s[::-1]
 
-llist.rotate(4)
-llist.print_list()
+    def is_palindrome_2(self):
+        # Solution 2:
+        p = self.head
+        s = []
+        while p:
+            s.append(p.data)
+            p = p.next
+        p = self.head
+        while p:
+            data = s.pop()
+            if p.data != data:
+                return False
+            p = p.next
+        return True
+
+    def is_palindrome_3(self):
+        # Solution 3
+        if self.head:
+            p = self.head
+            q = self.head
+            prev = []
+
+            i = 0
+            while q:
+                prev.append(q)
+                q = q.next
+                i += 1
+            q = prev[i-1]
+
+            count = 1
+            while count <=i/2 +1:
+                if prev[-count].data != p.data:
+                    return False
+                p = p.next
+                count += 1
+            return True
+        else:
+            return True
+
+    def is_palindrome(self, method):
+        if method == 1:
+            return self.is_palindrome_1()
+        if method == 2:
+            return self.is_palindrome_2()
+        if method == 3:
+            return self.is_palindrome_3()
+
+    def move_tail_to_head(self):
+        head = self.head
+        tail = self.head
+        prev = []
+
+        while tail:
+            prev.append(tail)
+            tail = tail.next
+        tail = prev[-1]
+        prev[-2].next = None
+        tail.next = head
+        self.head = tail
+
+    def sum_two_lists(self, llist):
+        ans = LinkedList()
+        p = self.head
+        q = llist.head
+        remainder = 0
+        while p and q:
+            total = p.data + q.data + remainder
+            if total > 9:
+                remainder = (total // 10)
+                ans.append(total - (remainder * 10))
+            else:
+                remainder = 0
+                ans.append(total)
+            p = p.next
+            q = q.next
+
+        while p:
+            total = p.data + remainder
+            if total > 9:
+                remainder = (total // 10)
+                ans.append(total - (remainder * 10))
+            else:
+                remainder = 0
+                ans.append(total)
+            p = p.next
+
+        while q:
+            total = q.data + remainder
+            if total > 9:
+                remainder = (total // 10)
+                ans.append(total - (remainder * 10))
+            else:
+                remainder = 0
+                ans.append(total)
+            q = q.next
+        return ans
+
+# 3 6 5
+#   4 2
+# ------
+#
+llist1 = LinkedList()
+llist1.append(5)
+llist1.append(6)
+llist1.append(3)
+
+llist2 = LinkedList()
+llist2.append(8)
+llist2.append(4)
+llist2.append(2)
+
+print(365 + 248)
+llist1.sum_two_lists(llist2)
