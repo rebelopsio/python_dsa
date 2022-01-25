@@ -284,6 +284,7 @@ class LinkedList:
             self.head = p.next
             p.next = None
 
+<<<<<<< HEAD
     def is_palindrome_1(self):
         # Solution 1:
         s = ""
@@ -390,6 +391,7 @@ class LinkedList:
             q = q.next
         return ans
 
+
 # 3 6 5
 #   4 2
 # ------
@@ -406,3 +408,4 @@ llist2.append(2)
 
 print(365 + 248)
 llist1.sum_two_lists(llist2)
+
